@@ -1,0 +1,44 @@
+
+body {
+  background-color: #808080;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.2em;
+  margin: 15px;
+}
+
+h1, p {
+  color: #333;
+}
+
+#math_tasks {
+  float: left;
+  width: 80%;
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+}
+
+#control_tasks {
+  float: left;
+  width: 80%;
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  margin: 10px;
+}
+#control_tasks ul {
+  list-style: none;
+  padding: 0;
+  margin: 15px;
+  float: left;
+}
+#control_tasks ul li {
+  float: left;
+}
+#control_tasks ul li label {
+  /* float: left; */
+  width: 5em;
+  text-align: right;
+}

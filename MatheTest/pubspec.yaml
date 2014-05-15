@@ -1,0 +1,7 @@
+name: MatheTest
+author: Kay-Uwe Kirstein
+description: A simple web-based math test application
+dependencies:
+  angular: any
+  browser: any
+  shadow_dom: any

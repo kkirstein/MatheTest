@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+  <meta charset="utf-8">
+  <title>MatheTest</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div mathtest-gui>
+    <h1>MatheTest</h1>
+
+    <div id="math_tasks">
+      <h2>Aufgaben</h2>
+
+    </div>
+
+    <div id="control_tasks">
+      <ul>
+        <li>
+          <label>Anzahl Aufgaben:</label>
+          <input type="text" ng-model="ctrl.numTasks">
+        </li>
+        <li ng-show="!ctrl.isRunning">
+          <button ng-click="ctrl.startTest()">Starte Test!</button>
+        </li>
+        <li ng-show="ctrl.isRunning">
+          <button ng-click="ctrl.stopTest()">Fertig!</button>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <script src="packages/shadow_dom/shadow_dom.min.js"></script>
+  <script type="application/dart" src="main.dart"></script>
+  <script src="packages/browser/dart.js"></script>
+</body>
+</html>
