@@ -37,9 +37,13 @@
         <li ng-if="ctrl.isRunning">
           <button ng-click="ctrl.stopTest()">Fertig!</button>
         </li>
+        <li ng-if="ctrl.isRunning">
+          <p>Aktuelle Zeit: {{ctrl.formatElapsedTime()}}</p>
+        </li>
         <li ng-if="!ctrl.isRunning">
           <p>{{ctrl.successMsg}}</p>
         </li>
+        
       </ul>
     </div>
 

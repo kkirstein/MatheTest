@@ -44,7 +44,7 @@ h1, p {
   float: left;
 }
 #control_tasks ul li {
-  float: left;
+  /* float: left; */
 }
 #control_tasks ul li label {
   /* float: left; */
