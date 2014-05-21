@@ -20,14 +20,18 @@ class MathTask {
   int _upperLimit;
   
   // constructor
-  // TODO: hand-over list of allowed operators
-  MathTask(String op, [int maxValue]) {
+  MathTask(List<String> ops, [int maxValue]) {
     
     trial = "";
     correct = true;
     
-    // TODO: randomly select operator from given list
-    operator = op;
+    // randomly select operator from given list
+    if (ops.length == 1) {
+      operator = ops.first;
+    } else {
+      var idx = _rand.nextInt(ops.length);
+      operator = ops[idx];
+    }
     if (maxValue != null) { _upperLimit = maxValue; }
     else { _upperLimit = 100; }
     
@@ -39,7 +43,7 @@ class MathTask {
         break;
       case '-':
         operand_1 = _getNumber(1, _upperLimit);
-        operand_2 = operand_2 - _getNumber(0, operand_1);
+        operand_2 = operand_1 - _getNumber(0, operand_1);
         result = operand_1 - operand_2;
         break;
       default:

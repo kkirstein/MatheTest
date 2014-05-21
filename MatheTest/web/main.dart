@@ -35,7 +35,7 @@ class MathTestGuiController {
     
     // generate tasks
     for (var i=0; i<numTasks; i++) {
-      tasks.add(new MathTask('+', 100));
+      tasks.add(new MathTask(['+', '-'], 100));
     }
   }
   
