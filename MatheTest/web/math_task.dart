@@ -6,25 +6,26 @@ import 'dart:math';
  * Single task for math test app
  */
 class MathTask {
-  
+
   // public properties
   int operand_1;
   int operand_2;
   int result;
   String operator;
   String trial;
+  int position;
   bool correct;
-  
+
   // private properties
   static Random _rand = new Random();
   int _upperLimit;
-  
+
   // constructor
-  MathTask(List<String> ops, [int maxValue]) {
-    
+  MathTask(List<String> ops, [int maxValue, List<int> trialPosition]) {
+
     trial = "";
     correct = true;
-    
+
     // randomly select operator from given list
     if (ops.length == 1) {
       operator = ops.first;
@@ -32,9 +33,22 @@ class MathTask {
       var idx = _rand.nextInt(ops.length);
       operator = ops[idx];
     }
-    if (maxValue != null) { _upperLimit = maxValue; }
-    else { _upperLimit = 100; }
-    
+
+    // check for optional args
+    if (maxValue != null) {
+      _upperLimit = maxValue;
+    } else {
+      _upperLimit = 100;
+    }
+    if (trialPosition != null) {
+      // TODO: boundary check
+      var idx = _rand.nextInt(trialPosition.length);
+      position = trialPosition[idx];
+    } else {
+      position = 3;
+    }
+
+
     switch (operator) {
       case '+':
         result = _getNumber(1, _upperLimit);
@@ -50,22 +64,38 @@ class MathTask {
         throw "Unsuported operator $operator";
     }
   }
-  
+
   // check trial
   bool checkResult() {
     try {
       var trialNum = int.parse(trial);
-      if (trialNum == result) correct = true;
-      else correct = false;
+      
+      // select expection value
+      var expected;
+      switch (position) {
+        case 1:
+          expected = operand_1;
+          break;
+        case 2:
+          expected = operand_2;
+          break;
+        case 3:
+          expected = result;
+          break;
+        default:
+          throw "Illegal trial position $position";
+      }
+      
+      if (trialNum == expected) correct = true; else correct = false;
     } on FormatException {
       correct = false;
     }
-    
+
     return correct;
   }
-  
+
   // private methods
   int _getNumber(int min, int max) {
-    return (min + _rand.nextInt(max-min));
+    return (min + _rand.nextInt(max - min));
   }
 }

@@ -20,7 +20,7 @@ class MathTestGuiController {
   String successMsg;
   List<MathTask> tasks;
   int elapsed;
-  
+
   // private properties
   int _correctTasks;
   Timer _timer;
@@ -41,7 +41,7 @@ class MathTestGuiController {
     
     // generate tasks
     for (var i=0; i<numTasks; i++) {
-      tasks.add(new MathTask(['+', '-'], 100));
+      tasks.add(new MathTask(['+', '-'], 100, [2, 3]));
     }
 
     // start timer
@@ -65,7 +65,11 @@ class MathTestGuiController {
   String formatElapsedTime() {
     return "${elapsed~/60} Minuten und ${elapsed%60} Sekunden";
   }
-
+  
+  void checkArgument() {
+    if (numTasks < 1) numTasks = 1;
+    if (numTasks > 25) numTasks = 25;
+  }
   // private mathods
   void _defaultData() {
     isRunning = false;

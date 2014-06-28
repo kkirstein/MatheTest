@@ -28,6 +28,10 @@ h1, p {
 #math_tasks tr {
   text-align: right;
 }
+#math_tasks input {
+  width: 3em;
+  text-align: right;
+}
 
 #control_tasks {
   float: left;

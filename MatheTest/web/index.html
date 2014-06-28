@@ -14,11 +14,14 @@
       <h2>Aufgaben</h2>
       <table>
         <tr ng-repeat="task in ctrl.tasks">
-          <td>{{task.operand_1}}</td>
+          <td ng-if="task.position != 1">{{task.operand_1}}</td>
+          <td ng-if="task.position == 1"><input type="text" ng-model="task.trial"></td>
           <td>{{task.operator}}</td>
-          <td>{{task.operand_2}}</td>
+          <td ng-if="task.position != 2">{{task.operand_2}}</td>
+          <td ng-if="task.position == 2"><input type="text" ng-model="task.trial"></td>
           <td>=</td>
-          <td><input type="text" ng-model="task.trial"></td>
+          <td ng-if="task.position != 3">{{task.result}}</td>
+          <td ng-if="task.position == 3"><input type="text" ng-model="task.trial"></td>
           <td ng-if="!task.correct" class="error_msg">Fehler!</td>
         </tr>
       </table>
@@ -29,7 +32,7 @@
       <ul>
         <li>
           <label>Anzahl Aufgaben:</label>
-          <input type="number" ng-model="ctrl.numTasks">
+          <input type="number" ng-model="ctrl.numTasks" ng-change="ctrl.checkArgument()">
         </li>
         <li ng-if="!ctrl.isRunning">
           <button ng-click="ctrl.startTest()">Starte Test!</button>
