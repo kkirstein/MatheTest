@@ -2,6 +2,7 @@
 *~
 
 # dart2js
+build
 *.dart.js
 *.js.map
 *.js.deps
