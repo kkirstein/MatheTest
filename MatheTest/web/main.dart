@@ -99,7 +99,7 @@ class MathTestGuiController {
 class MathTestModule extends Module {
   // constructor
   MathTestModule() {
-    type(MathTestGuiController);
+    bind(MathTestGuiController);
   }
 }
 
