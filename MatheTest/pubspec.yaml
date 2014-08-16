@@ -1,5 +1,5 @@
 name: MatheTest
-version: 0.0.9
+version: 0.1.0
 author: Kay-Uwe Kirstein
 description: A simple web-based math test application
 dependencies:
