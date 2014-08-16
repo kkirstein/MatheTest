@@ -1,8 +1,8 @@
 name: MatheTest
-version: 0.1.0
+version: 0.1.1
 author: Kay-Uwe Kirstein
 description: A simple web-based math test application
 dependencies:
-  angular: '>=0.10.0 <0.13.0'
+  angular: '>=0.10.0'
   browser: any
   shadow_dom: any
