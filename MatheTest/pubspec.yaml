@@ -2,6 +2,6 @@ name: MatheTest
 author: Kay-Uwe Kirstein
 description: A simple web-based math test application
 dependencies:
-  angular: any
+  angular: '>=0.10.0 <0.13.0'
   browser: any
   shadow_dom: any
