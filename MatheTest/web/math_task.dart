@@ -66,6 +66,12 @@ class MathTask {
         operand_2 = _getNumber(1, operand_limit);
         result = operand_1 * operand_2;
         break;
+      case '/':
+        var operand_limit = sqrt(_upperLimit).ceil();
+        operand_2 = _getNumber(1, operand_limit);
+        result = _getNumber(1, operand_limit);
+        operand_1 = result * operand_2;
+        break;        
       default:
         throw "Unsuported operator $operator";
     }
