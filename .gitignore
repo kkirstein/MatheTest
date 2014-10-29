@@ -2,6 +2,7 @@
 *~
 
 # dart2js
+.pub
 build
 *.dart.js
 *.js.map
@@ -10,8 +11,7 @@ build
 # pub package manager
 packages
 deploy
-benchmark/pubspec.lock
-mandelbrot/pubspec.lock
+MatheTest/pubspec.lock
 
 # other generated files
 *.pgm
