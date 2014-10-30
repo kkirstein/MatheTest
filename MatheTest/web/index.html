@@ -10,6 +10,10 @@
   <div mathtest-gui>
     <h1>MatheTest</h1>
 
+    <!--
+    <div ng-hide="true">Moment, MatheTest wird geladen...</div>
+     -->
+
     <div id="math_tasks">
       <h2>Aufgaben</h2>
       <table>
@@ -41,9 +45,9 @@
           <button ng-click="stopTest()">Fertig!</button>
         </li>
         <li ng-if="isRunning">
-          <p>Aktuelle Zeit: {{formatElapsedTime()}}</p>
+          <p>Aktuelle Zeit: {{ formatElapsedTime() }}</p>
         </li>
-        <li ng-if="isRunning">
+        <li ng-if="!isRunning">
           <p>{{successMsg}}</p>
         </li>
         

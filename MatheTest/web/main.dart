@@ -68,9 +68,7 @@ class MathTestGuiController {
     _successMsg();
   }
 
-  String formatElapsedTime() {
-    return "${elapsed~/60} Minuten und ${elapsed%60} Sekunden";
-  }
+  String formatElapsedTime() => "${elapsed~/60} Minuten und ${elapsed%60} Sekunden";
   
   void checkArgument() {
     if (numTasks < 1) numTasks = 1;
