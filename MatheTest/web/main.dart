@@ -9,9 +9,10 @@ import 'math_task.dart';
 /**
  * GUI controller for MatheTest app
  */
-@Controller(
-    selector: '[mathtest-gui]',
-    publishAs: 'ctrl')
+//@Controller(
+//    selector: '[mathtest-gui]',
+//    publishAs: 'ctrl')
+@Injectable()
 class MathTestGuiController {
   
   // const properties
@@ -101,15 +102,18 @@ class MathTestGuiController {
 }
 
 
-class MathTestModule extends Module {
-  // constructor
-  MathTestModule() {
-    bind(MathTestGuiController);
-  }
-}
+//class MathTestModule extends Module {
+//  // constructor
+//  MathTestModule() {
+//    bind(MathTestGuiController);
+//  }
+//}
 
 void main() {
+  var module = new Module()..bind(MathTestGuiController);
+  
   applicationFactory()
-    .addModule(new MathTestModule())
+    .addModule(module)
+    .rootContextType(MathTestGuiController)
     .run();
 }
