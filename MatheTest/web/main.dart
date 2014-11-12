@@ -9,9 +9,6 @@ import 'math_task.dart';
 /**
  * GUI controller for MatheTest app
  */
-//@Controller(
-//    selector: '[mathtest-gui]',
-//    publishAs: 'ctrl')
 @Injectable()
 class MathTestGuiController {
   
@@ -100,13 +97,9 @@ class MathTestGuiController {
 }
 
 
-//class MathTestModule extends Module {
-//  // constructor
-//  MathTestModule() {
-//    bind(MathTestGuiController);
-//  }
-//}
-
+/// 
+/// main entry point
+/// 
 void main() {
   var module = new Module()..bind(MathTestGuiController);
   
