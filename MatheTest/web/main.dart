@@ -9,15 +9,13 @@ import 'math_task.dart';
 /**
  * GUI controller for MatheTest app
  */
-@Controller(
-    selector: '[mathtest-gui]',
-    publishAs: 'ctrl')
+@Injectable()
 class MathTestGuiController {
   
   // const properties
   static const UPPER_LIMIT = 100;
-//  static final OPERANDS = ['+', '-', '*', '/'];
-  static final OPERANDS = ['+', '-'];
+  static final OPERANDS = ['+', '-', '*', '/'];
+//  static final OPERANDS = ['+', '-'];
   
   // public properties
   int numTasks;
@@ -67,9 +65,7 @@ class MathTestGuiController {
     _successMsg();
   }
 
-  String formatElapsedTime() {
-    return "${elapsed~/60} Minuten und ${elapsed%60} Sekunden";
-  }
+  String formatElapsedTime() => "${elapsed~/60} Minuten und ${elapsed%60} Sekunden";
   
   void checkArgument() {
     if (numTasks < 1) numTasks = 1;
@@ -101,15 +97,14 @@ class MathTestGuiController {
 }
 
 
-class MathTestModule extends Module {
-  // constructor
-  MathTestModule() {
-    bind(MathTestGuiController);
-  }
-}
-
+/// 
+/// main entry point
+/// 
 void main() {
+  var module = new Module()..bind(MathTestGuiController);
+  
   applicationFactory()
-    .addModule(new MathTestModule())
+    .addModule(module)
+    .rootContextType(MathTestGuiController)
     .run();
 }

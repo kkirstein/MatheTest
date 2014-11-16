@@ -4,16 +4,23 @@
   <meta charset="utf-8">
   <title>MatheTest</title>
   <link rel="stylesheet" href="style.css">
+  
+  <script src="packages/web_components/platform.js"></script>
+  <script src="packages/web_components/dart_support.js"></script>
 </head>
 
 <body>
   <div mathtest-gui>
     <h1>MatheTest</h1>
 
+    <!--
+    <div ng-hide="true">Moment, MatheTest wird geladen...</div>
+     -->
+
     <div id="math_tasks">
       <h2>Aufgaben</h2>
       <table>
-        <tr ng-repeat="task in ctrl.tasks">
+        <tr ng-repeat="task in tasks">
           <td ng-if="task.position != 1">{{task.operand_1}}</td>
           <td ng-if="task.position == 1"><input type="text" ng-model="task.trial"></td>
           <td>{{task.operator}}</td>
@@ -32,19 +39,19 @@
       <ul>
         <li>
           <label>Anzahl Aufgaben:</label>
-          <input type="number" ng-model="ctrl.numTasks" ng-change="ctrl.checkArgument()">
+          <input type="number" ng-model="numTasks" ng-change="checkArgument()">
         </li>
-        <li ng-if="!ctrl.isRunning">
-          <button ng-click="ctrl.startTest()">Starte Test!</button>
+        <li ng-if="!isRunning">
+          <button ng-click="startTest()">Starte Test!</button>
         </li>
-        <li ng-if="ctrl.isRunning">
-          <button ng-click="ctrl.stopTest()">Fertig!</button>
+        <li ng-if="isRunning">
+          <button ng-click="stopTest()">Fertig!</button>
         </li>
-        <li ng-if="ctrl.isRunning">
-          <p>Aktuelle Zeit: {{ctrl.formatElapsedTime()}}</p>
+        <li ng-if="isRunning">
+          <p>Aktuelle Zeit: {{ formatElapsedTime() }}</p>
         </li>
-        <li ng-if="!ctrl.isRunning">
-          <p>{{ctrl.successMsg}}</p>
+        <li ng-if="!isRunning">
+          <p>{{successMsg}}</p>
         </li>
         
       </ul>
@@ -52,8 +59,7 @@
 
   </div>
 
-  <script src="packages/shadow_dom/shadow_dom.min.js"></script>
   <script type="application/dart" src="main.dart"></script>
-  <script src="packages/browser/dart.js"></script>
+  <script type="text/javascript" src="packages/browser/dart.js"></script>
 </body>
 </html>
