@@ -1,0 +1,14 @@
+<div class="advanced_config"
+  ng-if="advancedConfigEnabled">
+  <ul>
+    <li ng-repeat="op in allOperators">
+      <input type="checkbox" ng-model="op.selected">{{op.label}}
+    </li>
+  </ul>
+  <ul>
+    <li ng-repeat="pos in allPositions">
+      <input type="checkbox" ng-model="pos.selected">{{pos.label}}
+    </li>
+  </ul>
+</div>
+      

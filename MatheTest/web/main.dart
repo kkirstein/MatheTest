@@ -5,6 +5,7 @@ import 'package:angular/angular.dart';
 import 'package:angular/application_factory.dart';
 
 import 'math_task.dart';
+import 'package:math_test/component/advanced_config.dart';
 
 /**
  * GUI controller for MatheTest app
