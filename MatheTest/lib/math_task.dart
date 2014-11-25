@@ -1,3 +1,4 @@
+library math_test_task;
 // math_task.dart
 
 import 'dart:math';

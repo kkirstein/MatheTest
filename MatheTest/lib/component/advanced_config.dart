@@ -5,11 +5,13 @@ import 'package:angular/angular.dart';
 class Operator {
   String label;
   bool selected;
+  // TODO: constructor with public properties as parameters
 }
 
 class Position {
   String label;
   bool selected;
+  // TODO: constructor with public properties as parameters
 }
 
 @Component(
@@ -47,6 +49,7 @@ class AdvancedConfig {
   
   void _defaultOperators() {
     allOperators = new List(4);
+    // TODO: call Operator constuctor
     allOperators[0].label = '+';
     allOperators[0].selected = true;
     allOperators[1].label = '-';
@@ -59,6 +62,7 @@ class AdvancedConfig {
   
   void _defaultPositions() {
     allPositions = new List(3);
+    // TODO: call Position constuctor
     allPositions[0].label = '1';
     allPositions[0].selected = true;
     allPositions[1].label = '2';
