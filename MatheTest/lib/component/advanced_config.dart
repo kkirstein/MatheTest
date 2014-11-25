@@ -5,13 +5,15 @@ import 'package:angular/angular.dart';
 class Operator {
   String label;
   bool selected;
-  // TODO: constructor with public properties as parameters
+
+  Operator(this.label, this.selected);
 }
 
 class Position {
   String label;
   bool selected;
-  // TODO: constructor with public properties as parameters
+
+  Position(this.label, this.selected);
 }
 
 @Component(
