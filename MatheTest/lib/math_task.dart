@@ -1,4 +1,4 @@
-library math_test_task;
+library math_test.task;
 // math_task.dart
 
 import 'dart:math';

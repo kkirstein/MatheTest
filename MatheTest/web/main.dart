@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:angular/angular.dart';
 import 'package:angular/application_factory.dart';
 
-import '../lib/math_task.dart';
+import 'package:math_test/math_task.dart';
 import 'package:math_test/component/advanced_config.dart';
 
 part 'controller.dart';
