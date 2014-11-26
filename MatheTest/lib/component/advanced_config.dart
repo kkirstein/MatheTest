@@ -31,8 +31,8 @@ class AdvancedConfig {
   
   // constructor
   AdvancedConfig() {
-    _defaultOperators();
-    _defaultPositions();
+//    _defaultOperators();
+//    _defaultPositions();
   }
   
   // private stuff
@@ -47,6 +47,7 @@ class AdvancedConfig {
   }
   
   void _defaultOperators() {
+    allOperators = new Map();
     allOperators['+'] = true;
     allOperators['-'] = true;
     allOperators['*'] = true;
@@ -54,6 +55,7 @@ class AdvancedConfig {
   }
   
   void _defaultPositions() {
+    allPositions = new Map();
     allPositions['1'] = true;
     allPositions['2'] = true;
     allPositions['3'] = true;

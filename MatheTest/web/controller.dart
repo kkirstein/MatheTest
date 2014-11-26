@@ -13,6 +13,8 @@ class MathTestGuiController {
 //  static final OPERANDS = ['+', '-'];
   
   // public properties
+  List<String> operators;
+  List<int> positions;
   int numTasks;
   bool isRunning;
   String successMsg;
@@ -66,8 +68,11 @@ class MathTestGuiController {
     if (numTasks < 1) numTasks = 1;
     if (numTasks > 25) numTasks = 25;
   }
+  
   // private mathods
   void _defaultData() {
+    operators = ['+', '-', '*', '/'];
+    positions = [1, 2, 3];
     isRunning = false;
     numTasks = 10;
     tasks = [];
@@ -75,6 +80,7 @@ class MathTestGuiController {
     
     _correctTasks = 0;
   }
+
   
   void _successMsg() {
     var ratio = _correctTasks/numTasks * 100;
