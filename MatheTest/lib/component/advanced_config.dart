@@ -2,19 +2,6 @@ library math_test.config;
 
 import 'package:angular/angular.dart';
 
-class Operator {
-  String label;
-  bool selected;
-
-  Operator(this.label, this.selected);
-}
-
-class Position {
-  String label;
-  bool selected;
-
-  Position(this.label, this.selected);
-}
 
 @Component(
     selector: 'advanced-config',
@@ -24,13 +11,23 @@ class AdvancedConfig {
   // component attributes
   @NgTwoWay('operators')
   List<String> get operators => _getOperators();
+  set operators(List<String> value) {
+    for (var op in value) {
+      allOperators[op] = true;
+    }
+  }
   
   @NgTwoWay('positions')
   List<int> get positions => _getPositions();
+  set positions(List<int> value) {
+    for (var pos in value) {
+      allPositions[pos.toString()] = true;
+    }
+  }
   
   // public properties
-  List<Operator> allOperators;
-  List<Position> allPositions;
+  Map<String, bool> allOperators;
+  Map<String, bool> allPositions;
   
   // constructor
   AdvancedConfig() {
@@ -40,36 +37,25 @@ class AdvancedConfig {
   
   // private stuff
   List<String> _getOperators() {
-    // TODO
+    allOperators.keys.where((k) => allOperators[k]);
     return [];
   }
   
   List<int> _getPositions() {
-    // TODO
+    allPositions.keys.where((k) => allPositions[k]);
     return [];
   }
   
   void _defaultOperators() {
-    allOperators = new List(4);
-    // TODO: call Operator constuctor
-    allOperators[0].label = '+';
-    allOperators[0].selected = true;
-    allOperators[1].label = '-';
-    allOperators[1].selected = true;
-    allOperators[2].label = '*';
-    allOperators[2].selected = true;
-    allOperators[3].label = '/';
-    allOperators[3].selected = true;
+    allOperators['+'] = true;
+    allOperators['-'] = true;
+    allOperators['*'] = true;
+    allOperators['/'] = true;
   }
   
   void _defaultPositions() {
-    allPositions = new List(3);
-    // TODO: call Position constuctor
-    allPositions[0].label = '1';
-    allPositions[0].selected = true;
-    allPositions[1].label = '2';
-    allPositions[1].selected = true;
-    allPositions[2].label = '3';
-    allPositions[2].selected = true;    
+    allPositions['1'] = true;
+    allPositions['2'] = true;
+    allPositions['3'] = true;
   }
 }
