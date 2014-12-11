@@ -1,18 +1,14 @@
 # backup files
 *~
+*.swp
 
-# dart2js
-.pub
+# dependencies
+elm-stuff
+*/elm_dependencies/*
+
+# generated files
 build
-*.dart.js
-*.js.map
-*.js.deps
-
-# pub package manager
-packages
-deploy
-MatheTest/pubspec.lock
 
 # other generated files
-*.pgm
+*repl-temp-*
 
