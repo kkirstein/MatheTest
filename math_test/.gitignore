@@ -1,3 +1,8 @@
+# vim backup files
+*.swp
+*~
+
+# cljsbuild files
 /target
 /classes
 /checkouts
