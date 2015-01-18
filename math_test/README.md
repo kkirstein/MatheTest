@@ -8,5 +8,5 @@ In addition to the original application (see above) this projects also serves as
 
 # License
 
-3-clause BSD licens.
+3-clause BSD license.
 
