@@ -85,6 +85,6 @@
 
 ;; -------------------------
 ;; Initialize app
-(defn init! []
+(defn start []
   (reagent/render-component [main-page] (.getElementById js/document "app")))
 
