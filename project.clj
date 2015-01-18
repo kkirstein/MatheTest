@@ -1,8 +1,8 @@
 (defproject math-test "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
+  :license {:name "3-clause BSD-style License"
+            :url ""}
 
   :source-paths ["src" "dev"]
 
