@@ -2,10 +2,11 @@
   (:require [reagent.core :as reagent :refer [atom]])
   (:import [Math]))
 
+(enable-console-print!)
+
 
 ;; -------------------------
 ;; Model
-
 
 (defn rand-number
   "Generate random integer or given upper and lower limits."
@@ -61,10 +62,12 @@
 ;; Views
 
 (defn task-pane []
+  (let [tasks (:tasks @app-state)]
   [:div [:h1 "Aufgaben"]
+   (str (count tasks) " Aufgaben:")
    [:ul
     [:li "Aufgabe 1"]
-    [:li "Aufgabe 2"]]])
+    [:li "Aufgabe 2"]]]))
 
 (defn control-pane []
   [:div
