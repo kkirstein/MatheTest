@@ -12,8 +12,8 @@
   {:state :idle,
    :config {:num-tasks 10,
             :upper-limit 100,
-            :operands #{:add :sub :mul :div},
-            :positions #{2 3}},
+            :operands [:add :sub :mul :div],
+            :positions [2 3]},
    :tasks []})
 
 (def app-state (atom (initial-state)))
@@ -21,40 +21,45 @@
 (defn rand-number
   "Generate random integer or given upper and lower limits."
   [lower upper]
-  (+ lower (int (* upper (js/Math.random)))))
+  (js/Math.round (+ lower (* (- upper lower) (js/Math.random)))))
 
+(defn select-member
+  "Select a random member from given set."
+  [coll]
+  (let [idx (rand-number 0 (dec (count coll)))]
+    (nth coll idx)))
 
 (defn new-task
   "Generate a new task with given configuration."
   [config]
-  (let [upper-limit (:upper-limit config)
-        operands (:operands config)
-        positions (:positions config)]  ; TODO: generate operand!
+  (let [op (select-member (:operands config))
+        pos (select-member (:positions config))
+        limit (:upper-limit config)]
     (merge (cond
-             (operands :add) (let [result (rand-number 0 upper-limit)
-                                   op-1 (- result (rand-number 0 result))
-                                   op-2 (- result op-1)]
-                               {:op :add, :operand-1 op-1, :operand-2 op-2, :result result})
-             (operands :sub) (let [op-1 (rand-number 0 upper-limit)
-                                   op-2 (- op-1 (rand-number 0 op-1))
-                                   result (- op-1 op-2)]
-                               {:op :sub, :operand-1 op-1, :operand-2 op-2, :result result})
-             (operands :mul) (let [op-limit (int (js/Math.sqrt upper-limit))
-                                   op-1 (rand-number 1 op-limit)
-                                   op-2 (rand-number 1 op-limit)
-                                   result (* op-1 op-2)]
-                               {:op :mul, :operand-1 op-1, :operand-2 op-2, :result result})
-             (operands :div) (let [op-limit (int (js/Math.sqrt upper-limit))
-                                   op-2 (rand-number 1 op-limit)
-                                   result (rand-number 1 op-limit)
-                                   op-1 (* op-2 result)]
-                               {:op :div, :operand-1 op-1, :operand-2 op-2, :result result}))
-           {:trial "", :correct true})))
+             (= op :add) (let [result (rand-number 0 limit)
+                               op-1 (- result (rand-number 0 result))
+                               op-2 (- result op-1)]
+                           {:op :add, :operand-1 op-1, :operand-2 op-2, :result result})
+             (= op :sub) (let [op-1 (rand-number 0 limit)
+                               op-2 (- op-1 (rand-number 0 op-1))
+                               result (- op-1 op-2)]
+                           {:op :sub, :operand-1 op-1, :operand-2 op-2, :result result})
+             (= op :mul) (let [op-limit (int (js/Math.sqrt limit))
+                               op-1 (rand-number 1 op-limit)
+                               op-2 (rand-number 1 op-limit)
+                               result (* op-1 op-2)]
+                           {:op :mul, :operand-1 op-1, :operand-2 op-2, :result result})
+             (= op :div) (let [op-limit (int (js/Math.sqrt limit))
+                               op-2 (rand-number 1 op-limit)
+                               result (rand-number 1 op-limit)
+                               op-1 (* op-2 result)]
+                           {:op :div, :operand-1 op-1, :operand-2 op-2, :result result}))
+           {:pos pos, :trial "", :correct true})))
 
 (defn set-new-tasks []
   (let [config (:config @app-state)
         num-tasks (:num-tasks config)
-        new-tasks (repeat num-tasks (new-task config))]
+        new-tasks (repeatedly num-tasks #(new-task config))]
     (swap! app-state assoc :tasks new-tasks)))
 
 (defn set-num-tasks [n]
