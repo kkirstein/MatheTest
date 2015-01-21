@@ -8,6 +8,16 @@
 ;; -------------------------
 ;; Model
 
+(defn initial-state []
+  {:state :idle,
+   :config {:num-tasks 10,
+            :upper-limit 100,
+            :operands #{:add :sub :mul :div},
+            :positions #{2 3}},
+   :tasks []})
+
+(def app-state (atom (initial-state)))
+
 (defn rand-number
   "Generate random integer or given upper and lower limits."
   [lower upper]
@@ -19,47 +29,79 @@
   [config]
   (let [upper-limit (:upper-limit config)
         operands (:operands config)
-        positions (:positions config)]
+        positions (:positions config)]  ; TODO: generate operand!
     (merge (cond
              (operands :add) (let [result (rand-number 0 upper-limit)
                                    op-1 (- result (rand-number 0 result))
                                    op-2 (- result op-1)]
-                               {:operand-1 op-1, :operand-2 op-2, :result result})
+                               {:op :add, :operand-1 op-1, :operand-2 op-2, :result result})
              (operands :sub) (let [op-1 (rand-number 0 upper-limit)
                                    op-2 (- op-1 (rand-number 0 op-1))
                                    result (- op-1 op-2)]
-                               {:operand-1 op-1, :operand-2 op-2, :result result})
+                               {:op :sub, :operand-1 op-1, :operand-2 op-2, :result result})
              (operands :mul) (let [op-limit (int (js/Math.sqrt upper-limit))
                                    op-1 (rand-number 1 op-limit)
                                    op-2 (rand-number 1 op-limit)
                                    result (* op-1 op-2)]
-                               {:operand-1 op-1, :operand-2 op-2, :result result})
+                               {:op :mul, :operand-1 op-1, :operand-2 op-2, :result result})
              (operands :div) (let [op-limit (int (js/Math.sqrt upper-limit))
                                    op-2 (rand-number 1 op-limit)
                                    result (rand-number 1 op-limit)
                                    op-1 (* op-2 result)]
-                               {:operand-1 op-1, :operand-2 op-2, :result result}))
+                               {:op :div, :operand-1 op-1, :operand-2 op-2, :result result}))
            {:trial "", :correct true})))
 
+(defn set-new-tasks []
+  (let [config (:config @app-state)
+        num-tasks (:num-tasks config)
+        new-tasks (repeat num-tasks (new-task config))]
+    (swap! app-state assoc :tasks new-tasks)))
 
-(defn initial-state []
-  {:config {:upper-limit 100,
-            :operands #{:add :sub :mul :div},
-            :positions #{2 3}}
-   :tasks []})
+(defn set-num-tasks [n]
+  (let [current-config (:config @app-state)
+        new-config (assoc current-config :num-tasks n)]
+    (swap! app-state assoc :config new-config)))
+
+(defn start-test []
+  (swap! app-state assoc :state :running)
+  (set-new-tasks)
+  (print-app-state))
+
+(defn stop-test []
+  (swap! app-state assoc :state :finished)
+  (print-app-state))
+
+
+; debug utils:
+(defn print-app-state []
+  (println @app-state))
 
 (defn demo-tasks [n]
-  (let [config {:upper-limit 100,
+  (let [config {:num-tasks 10,
+                :upper-limit 100,
                 :operands #{:add :sub :mul :div},
                 :positions #{2 3}}]
     (repeat 5 (new-task config))))
 
 
-(defonce app-state (atom (initial-state)))
-
-
 ;; -------------------------
 ;; Views
+
+;(defn input-field
+;  [params]
+;  (let [type (or (:type params) "text")
+;        label (or (:label params) "")
+;        cb (or (:cb params) println)
+;        default (or (:default params) "")]
+;    [:div
+;     [:label label]
+;     [:input {:type type, :value default, :on-change #(cb (-> .-target .-value))} label]]))
+
+(defn start-stop-button []
+  (let [running? (= :running (:state @app-state))]
+    (if running?
+      [:button {:on-click stop-test} "Fertig!"]
+      [:button {:on-click start-test} "Starte Test!"])))
 
 (defn task-pane []
   (let [tasks (:tasks @app-state)]
@@ -72,15 +114,20 @@
 (defn control-pane []
   [:div
    [:ul
-    [:li "Anzahl Aufgaben"]
-    [:li "Start / Stop"]]])
+    [:li
+     [:label "Anzahl Aufgaben"]
+     [:input {:type "number" :on-change #(set-num-tasks (js/parseInt (-> % .-target .-value)))}]]
+    [:li
+     [start-stop-button]]
+    [:li
+     [:button {:on-click print-app-state} "Show Current State"]]
+    [:li
+     [:button {:on-click #(set-num-tasks 3)} "Test"]]]])
 
 (defn main-page []
   [:div [:h1 "Mathe-Test"]
-   task-pane
-   control-pane])
-
-
+   [task-pane]
+   [control-pane]])
 
 
 ;; -------------------------
