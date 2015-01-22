@@ -54,13 +54,23 @@
                                result (rand-number 1 op-limit)
                                op-1 (* op-2 result)]
                            {:operator :div, :operand-1 op-1, :operand-2 op-2, :result result}))
-           {:id id, :pos pos, :guess (), :correct true})))
+           {:id id, :pos pos, :guess "", :correct true})))
 
 (defn set-new-tasks []
   (let [config (:config @app-state)
         num-tasks (:num-tasks config)
         new-tasks (for [id (range num-tasks)] (new-task config id))]
     (swap! app-state assoc :tasks new-tasks)))
+
+(defn get-guess [id]
+  (letfn [(id? [item] (= id (:id item)))]
+    (:guess (first (filter id? (:tasks @app-state))))))
+
+(defn update-task [tasks id key val]
+  (map #(if (= id (:id %)) (assoc % key val) %) tasks))
+
+(defn set-guess [id value]
+    (swap! app-state #(update-in % [:tasks] update-task id :guess value)))
 
 (defn set-num-tasks [n]
   (let [current-config (:config @app-state)
@@ -80,13 +90,6 @@
 ; debug utils:
 (defn print-app-state []
   (println @app-state))
-
-(defn demo-tasks [n]
-  (let [config {:num-tasks 10,
-                :upper-limit 100,
-                :operands #{:add :sub :mul :div},
-                :positions #{2 3}}]
-    (repeat 5 (new-task config))))
 
 
 ;; -------------------------
@@ -109,6 +112,15 @@
       [:button {:on-click stop-test} "Fertig!"]
       [:button {:on-click start-test} "Starte Test!"])))
 
+(defn task-input [task]
+  (let [id (:id task)
+        value (atom (get-guess id))]
+    (fn []
+      [:input {:type "text"
+               :value @value
+               :on-change #(set-guess id (reset! value (js/parseInt (-> % .-target .-value))))
+               :style {:width "3em"}}])))
+
 (defn single-task [task]
   (let [pos (:pos task)
         op (condp = (:operator task)
@@ -121,11 +133,12 @@
         res (:result task)
         finished? (= :finished (:state @app-state))]
     [:tr
-     [:td (if (= pos 1) [:input {:type "text" :style {:width "3em"}}] (str op-1))]
+     [:td (if (= pos 1) [task-input task] (str op-1))]
      [:td op]
-     [:td (if (= pos 2) [:input {:type "text" :style {:width "3em"}}] (str op-2))]
+     [:td (if (= pos 2) [task-input task] (str op-2))]
      [:td "="]
-     [:td (if (= pos 3) [:input {:type "text" :style {:width "3em"}}] (str res))]]))
+     [:td (if (= pos 3) [task-input task] (str res))]
+     (when (= :finished (:state @app-state)) [result-task task])]))
 
 (defn result-task [task]
   (let [pos (:pos task)
