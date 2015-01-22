@@ -31,7 +31,7 @@
 
 (defn new-task
   "Generate a new task with given configuration."
-  [config]
+  [config id]
   (let [op (select-member (:operands config))
         pos (select-member (:positions config))
         limit (:upper-limit config)]
@@ -54,12 +54,12 @@
                                result (rand-number 1 op-limit)
                                op-1 (* op-2 result)]
                            {:operator :div, :operand-1 op-1, :operand-2 op-2, :result result}))
-           {:pos pos, :guess (), :correct true})))
+           {:id id, :pos pos, :guess (), :correct true})))
 
 (defn set-new-tasks []
   (let [config (:config @app-state)
         num-tasks (:num-tasks config)
-        new-tasks (repeatedly num-tasks #(new-task config))]
+        new-tasks (for [id (range num-tasks)] (new-task config id))]
     (swap! app-state assoc :tasks new-tasks)))
 
 (defn set-num-tasks [n]
