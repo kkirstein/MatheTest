@@ -1,0 +1,12 @@
+# vim files
+*.swp
+*~
+
+# Leiningen files
+.lein*
+.nrepl*
+
+# cljsbuild
+out/
+target/
+
