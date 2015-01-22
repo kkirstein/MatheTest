@@ -13,7 +13,7 @@
    :config {:num-tasks 10,
             :upper-limit 100,
             :operands [:add :sub :mul :div],
-            :positions [2 3]},
+            :positions [1 2 3]},
    :tasks []})
 
 (def app-state (atom (initial-state)))
@@ -39,22 +39,22 @@
              (= op :add) (let [result (rand-number 0 limit)
                                op-1 (- result (rand-number 0 result))
                                op-2 (- result op-1)]
-                           {:op :add, :operand-1 op-1, :operand-2 op-2, :result result})
+                           {:operator :add, :operand-1 op-1, :operand-2 op-2, :result result})
              (= op :sub) (let [op-1 (rand-number 0 limit)
                                op-2 (- op-1 (rand-number 0 op-1))
                                result (- op-1 op-2)]
-                           {:op :sub, :operand-1 op-1, :operand-2 op-2, :result result})
+                           {:operator :sub, :operand-1 op-1, :operand-2 op-2, :result result})
              (= op :mul) (let [op-limit (int (js/Math.sqrt limit))
                                op-1 (rand-number 1 op-limit)
                                op-2 (rand-number 1 op-limit)
                                result (* op-1 op-2)]
-                           {:op :mul, :operand-1 op-1, :operand-2 op-2, :result result})
+                           {:operator :mul, :operand-1 op-1, :operand-2 op-2, :result result})
              (= op :div) (let [op-limit (int (js/Math.sqrt limit))
                                op-2 (rand-number 1 op-limit)
                                result (rand-number 1 op-limit)
                                op-1 (* op-2 result)]
-                           {:op :div, :operand-1 op-1, :operand-2 op-2, :result result}))
-           {:pos pos, :trial "", :correct true})))
+                           {:operator :div, :operand-1 op-1, :operand-2 op-2, :result result}))
+           {:pos pos, :guess (), :correct true})))
 
 (defn set-new-tasks []
   (let [config (:config @app-state)
@@ -102,19 +102,52 @@
 ;     [:label label]
 ;     [:input {:type type, :value default, :on-change #(cb (-> .-target .-value))} label]]))
 
+; some basic elements
 (defn start-stop-button []
   (let [running? (= :running (:state @app-state))]
     (if running?
       [:button {:on-click stop-test} "Fertig!"]
       [:button {:on-click start-test} "Starte Test!"])))
 
+(defn single-task [task]
+  (let [pos (:pos task)
+        op (condp = (:operator task)
+             :add "+"
+             :sub "-"
+             :mul "*"
+             :div "/")
+        op-1 (:operand-1 task)
+        op-2 (:operand-2 task)
+        res (:result task)
+        finished? (= :finished (:state @app-state))]
+    [:tr
+     [:td (if (= pos 1) [:input {:type "text" :style {:width "3em"}}] (str op-1))]
+     [:td op]
+     [:td (if (= pos 2) [:input {:type "text" :style {:width "3em"}}] (str op-2))]
+     [:td "="]
+     [:td (if (= pos 3) [:input {:type "text" :style {:width "3em"}}] (str res))]]))
+
+(defn result-task [task]
+  (let [pos (:pos task)
+        guess (:guess task)
+        ok-msg [:td {:style {:color "green"}} "Richtig."]
+        err-msg [:td {:style {:color "red" :font-weight "bold"}} "Fehler!"]]
+    (condp = pos
+          1 (if (= guess (:operand-1 task)) ok-msg err-msg)
+          2 (if (= guess (:operand-2 task)) ok-msg err-msg)
+          3 (if (= guess (:result task)) ok-msg err-msg))))
+
+(defn all-tasks []
+  (let [tasks (:tasks @app-state)]
+    [:table
+     (for [t tasks] [single-task t])]))
+
+; the main panes:
 (defn task-pane []
   (let [tasks (:tasks @app-state)]
-  [:div [:h1 "Aufgaben"]
-   (str (count tasks) " Aufgaben:")
-   [:ul
-    [:li "Aufgabe 1"]
-    [:li "Aufgabe 2"]]]))
+    [:div [:h1 "Aufgaben"]
+     (str (count tasks) " Aufgaben:")
+     [all-tasks]]))
 
 (defn control-pane []
   [:div
