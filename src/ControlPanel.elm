@@ -6,14 +6,15 @@
 -- Author: Kay-Uwe Kirstein
 --
 
-module ControlPanel where
+module ControlPanel (Model, init, Action, update, view) where
 
 import Html (..)
 import Html.Attributes (..)
 import Html.Events (..)
 
 import Signal
-import LocalChannel
+import String
+import LocalChannel as LC
 
 
 ---- MODEL ----
@@ -35,10 +36,21 @@ init =
 
 ---- UPDATE ----
 
-type Action =
-  SetNumTasks Int
+type Action
+  = SetNumTasks String
   | Start
   | Stop
+
+update : Action -> Model -> Model
+update action model =
+  case action of
+    SetNumTasks numStr -> updateNumTasks numStr model
+    Start -> { model | status <- Running }
+    Stop -> { model | status <- Stopped }
+
+updateNumTasks : String -> Model -> Model
+updateNumTasks numStr model = 
+  model -- TODO: check input and update model if valid, no change otherwise
 
 
 ---- VIEW ----
@@ -49,7 +61,7 @@ view channel model =
   [ h2 [] [ text "Steuerung" ]
   , input
     [ value (toString model.numTasks)
-    , on "input" targetValue (LC.send channel SetNumTask (toInt targetValue))
+    , on "input" targetValue (\val -> LC.send channel (SetNumTasks val))
     ]
     []
   , startStopButton channel model
