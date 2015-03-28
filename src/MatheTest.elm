@@ -17,7 +17,9 @@ import List
 import Signal
 import String
 
-import ControlPanel (..)
+import LocalChannel as LC
+
+import ControlPanel as CP
 
 
 ---- MODEL ----
@@ -25,6 +27,7 @@ import ControlPanel (..)
 type alias Model =
   { tasks: List MathTask
   , config: Config
+  , control: CP.Model
 }
 
 type alias MathTask =
@@ -49,7 +52,7 @@ type alias Config =
 }
 
 init : Model
-init = { tasks = [], config = defaultConfig }
+init = { tasks = [], config = defaultConfig , control = CP.init }
 
 defaultConfig : Config
 defaultConfig =
@@ -66,7 +69,8 @@ defaultTaskConfig =
 ---- UPDATE ----
 
 type Action
-  = Control ControlPanel.Action
+  = NoOp
+  | Control CP.Action
 
 
 update : Action -> Model -> Model
@@ -84,19 +88,17 @@ view model =
   , div [] 
     [ h2 [] [ text "Aufgaben" ]
     ]
-  , div []
-    [ h2 [] [text "Steuerung" ]
-    ]
+  , CP.view (LC.create Control actionChannel) model.control
   ]
 
 
 ---- SIGNALS ----
 
-action : Signal.Channel Action
-action = Signal.channel NoOp
+actionChannel : Signal.Channel Action
+actionChannel = Signal.channel NoOp
 
 model : Signal Model
-model = Signal.foldp update init (Signal.subscribe action)
+model = Signal.foldp update init (Signal.subscribe actionChannel)
  
 
 main : Signal Html
