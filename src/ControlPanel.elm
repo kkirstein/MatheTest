@@ -16,6 +16,7 @@ import Signal
 import String
 import LocalChannel as LC
 
+import Debug
 
 ---- MODEL ----
 
@@ -45,12 +46,14 @@ update : Action -> Model -> Model
 update action model =
   case action of
     SetNumTasks numStr -> updateNumTasks numStr model
-    Start -> { model | status <- Running }
-    Stop -> { model | status <- Stopped }
+    Start -> Debug.log "Model" { model | status <- Running }
+    Stop -> Debug.log "Model" { model | status <- Stopped }
 
 updateNumTasks : String -> Model -> Model
 updateNumTasks numStr model = 
-  model -- TODO: check input and update model if valid, no change otherwise
+  case String.toInt numStr of
+    Ok num -> { model | numTasks <- num }
+    _ -> model
 
 
 ---- VIEW ----
@@ -59,18 +62,22 @@ view : LC.LocalChannel Action -> Model -> Html
 view channel model =
   div []
   [ h2 [] [ text "Steuerung" ]
-  , input
-    [ value (toString model.numTasks)
-    , on "input" targetValue (\val -> LC.send channel (SetNumTasks val))
+  , ul []
+    [ li [] [ input
+        [ value (toString model.numTasks)
+        , type' "number"
+        , on "input" targetValue (\val -> LC.send channel (SetNumTasks val))
+        ]
+        []
+      ]
+    , li [] [ startStopButton channel model ]
     ]
-    []
-  , startStopButton channel model
   ]
 
 startStopButton : LC.LocalChannel Action -> Model -> Html
 startStopButton channel model =
   case model.status of
     Stopped -> button [ onClick (LC.send channel Start) ] [ text "Starte Test !" ]
-    Running -> button [ onClick (LC.send channel Stop) ] [ text "Fertig !" ] 
+    Running -> button [ onClick (LC.send channel Stop) ] [ text "Fertig !" ]
 
 

@@ -70,13 +70,14 @@ defaultTaskConfig =
 
 type Action
   = NoOp
-  | Control CP.Action
+    | Control CP.Action
 
 
 update : Action -> Model -> Model
-update action state =
+update action model =
   case action of
-    NoOp -> state
+    NoOp -> model
+    Control action -> { model | control <- CP.update action model.control }
 
 
 ---- VIEW ----
