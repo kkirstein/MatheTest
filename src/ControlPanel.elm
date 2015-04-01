@@ -16,6 +16,8 @@ import Signal
 import String
 import LocalChannel as LC
 
+import Task as T
+
 import Debug
 
 ---- MODEL ----
@@ -23,6 +25,8 @@ import Debug
 type alias Model =
   { numTasks : Int
   , status : Status
+  , operators : List T.Operator
+  , positions : List T.Position
 }
 
 type Status = Running | Stopped
@@ -31,6 +35,8 @@ init : Model
 init =
   { numTasks = 10
   , status = Stopped
+  , operators = [ T.Plus, T.Minus, T.Mult, T.Div ]
+  , positions = [ T.First, T.Second, T.Result ]
   }
 
 
@@ -46,8 +52,8 @@ update : Action -> Model -> Model
 update action model =
   case action of
     SetNumTasks numStr -> updateNumTasks numStr model
-    Start -> Debug.log "Model" { model | status <- Running }
-    Stop -> Debug.log "Model" { model | status <- Stopped }
+    Start -> { model | status <- Running }
+    Stop -> { model | status <- Stopped }
 
 updateNumTasks : String -> Model -> Model
 updateNumTasks numStr model = 

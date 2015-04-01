@@ -16,6 +16,8 @@ import Html.Events (..)
 import List
 import Signal
 import String
+import Random
+import Debug
 
 import LocalChannel as LC
 
@@ -26,45 +28,17 @@ import Task as T
 ---- MODEL ----
 
 type alias Model =
-  { tasks: List MathTask
-  , config: Config
-  , control: CP.Model
+  { tasks : List T.Model
+  , control : CP.Model
+  , seed : Random.Seed
 }
 
-type alias MathTask =
-  { operand_1: Int
-  , operand_2: Int
-  , result: Int
-  , operator: String
-  , guess: String
-  , guessPosition: Int
-  , correct: Bool
-}
-
-type alias TaskConfig =
-  { operators: List String
-  , positions: List Int
-  , upperLimit: Int
-}
-
-type alias Config =
-  { task: TaskConfig
-  , numTasks: Int
-}
 
 init : Model
-init = { tasks = [], config = defaultConfig , control = CP.init }
-
-defaultConfig : Config
-defaultConfig =
-  { task = defaultTaskConfig
-  , numTasks = 10 }
-
-defaultTaskConfig : TaskConfig
-defaultTaskConfig =
-  { operators = [ "+", "-", "*", "/" ]
-  , positions = [ 1, 2, 3 ]
-                , upperLimit = 100 }
+init =
+  { tasks = []
+  , control = CP.init
+  , seed = Random.initialSeed 23 }
 
 
 ---- UPDATE ----
@@ -78,7 +52,7 @@ update : Action -> Model -> Model
 update action model =
   case action of
     NoOp -> model
-    Control action -> { model | control <- CP.update action model.control }
+    Control action -> Debug.log "Model" { model | control <- CP.update action model.control }
 
 
 ---- VIEW ----
