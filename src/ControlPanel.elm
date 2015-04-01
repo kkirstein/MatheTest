@@ -9,7 +9,7 @@
 module ControlPanel (Model, init, Action, update, view) where
 
 import Html (..)
-import Html.Attributes (..)
+import Html.Attributes as Att
 import Html.Events (..)
 
 import Signal
@@ -52,7 +52,9 @@ update action model =
 updateNumTasks : String -> Model -> Model
 updateNumTasks numStr model = 
   case String.toInt numStr of
-    Ok num -> { model | numTasks <- num }
+    Ok num -> let numLimited = min 25 (max 1 num)
+              in
+                 { model | numTasks <- numLimited }
     _ -> model
 
 
@@ -64,8 +66,8 @@ view channel model =
   [ h2 [] [ text "Steuerung" ]
   , ul []
     [ li [] [ input
-        [ value (toString model.numTasks)
-        , type' "number"
+        [ Att.value (toString model.numTasks)
+        , Att.type' "number"
         , on "input" targetValue (\val -> LC.send channel (SetNumTasks val))
         ]
         []
