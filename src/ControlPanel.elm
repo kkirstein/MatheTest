@@ -52,7 +52,7 @@ update action model =
 updateNumTasks : String -> Model -> Model
 updateNumTasks numStr model = 
   case String.toInt numStr of
-    Ok num -> let numLimited = min 25 (max 1 num)
+    Ok num -> let numLimited = clamp 1 25 num
               in
                  { model | numTasks <- numLimited }
     _ -> model

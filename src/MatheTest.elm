@@ -20,6 +20,7 @@ import String
 import LocalChannel as LC
 
 import ControlPanel as CP
+import Task as T
 
 
 ---- MODEL ----
@@ -70,7 +71,7 @@ defaultTaskConfig =
 
 type Action
   = NoOp
-    | Control CP.Action
+  | Control CP.Action
 
 
 update : Action -> Model -> Model
