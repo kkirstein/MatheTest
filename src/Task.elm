@@ -6,7 +6,9 @@
 -- Author: Kay-Uwe Kirstein
 --
 
-module Task (Operator(..), Position(..), Model, Action, update, view) where
+module Task (Operator(..), Position(..), Model, Action, init, update, view) where
+
+import Random
 
 import Html (..)
 import Html.Attributes as Att
@@ -32,17 +34,22 @@ type alias Model =
   , show : Bool
 }
 
-init : List Operator -> List Position -> Int -> Model
-init operators positions limit =
-  { operator = Plus
-  , position = Result
-  , operand_1 = 2
-  , operand_2 = 3
-  , result = 5
-  , guess = Empty
-  , correct = False
-  , show = False
-  }
+init : Operator -> Position -> Int -> Random.Seed -> (Model, Random.Seed)
+init op pos limit seed0 =
+  let (a, b, c, seed1) = randNumbers op limit seed0 in
+  (
+    { operator = op
+    , position = pos
+    , operand_1 = a
+    , operand_2 = b
+    , result = c
+    , guess = Empty
+    , correct = False
+    , show = False }, seed1)
+
+randNumbers : Operator -> Int -> Random.Seed -> (Int, Int, Int, Random.Seed)
+randNumbers op limit seed0 =
+  (2, 3, 5, seed0)
 
 
 ---- UPDATE ----

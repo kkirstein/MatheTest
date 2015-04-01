@@ -6,7 +6,7 @@
 -- Author: Kay-Uwe Kirstein
 --
 
-module ControlPanel (Model, init, Action, update, view) where
+module ControlPanel (Model, init, Action(..), update, view) where
 
 import Html (..)
 import Html.Attributes as Att

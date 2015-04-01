@@ -52,7 +52,20 @@ update : Action -> Model -> Model
 update action model =
   case action of
     NoOp -> model
-    Control action -> Debug.log "Model" { model | control <- CP.update action model.control }
+    Control action ->
+      case action of
+        CP.Start -> let newModel = addTasks { model | tasks <- [] } model.control.numTasks
+                    in Debug.log "Start" { newModel | control <- CP.update action model.control }
+        _ -> Debug.log "Other" { model | control <- CP.update action model.control }
+
+
+addTasks : Model -> Int -> Model
+addTasks model n =
+  if n == 0 then model
+            else let (newTask, seed1) = T.init T.Plus T.Result 100 model.seed
+                     newModel = { model | tasks <- model.tasks ++ [ newTask ], seed <- seed1 }
+                 in addTasks newModel (n - 1)
+
 
 
 ---- VIEW ----
