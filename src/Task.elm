@@ -9,9 +9,11 @@
 module Task (Operator(..), Position(..), Model, Action, init, update, view) where
 
 import Random
+import String
 
 import Html (..)
 import Html.Attributes as Att
+import Html.Events (..)
 
 import LocalChannel as LC
 
@@ -56,13 +58,21 @@ randNumbers op limit seed0 =
 
 type Action
   = NoOp
+  | UpdateGuess String
   | ShowResult
 
 update : Action -> Model -> Model
 update action model =
   case action of
     NoOp -> model
+    UpdateGuess numStr -> updateGuess numStr model
     ShowResult -> { model | show <- True }
+
+updateGuess : String -> Model -> Model
+updateGuess numStr model =
+  case String.toInt numStr of
+    Ok num -> { model | guess <- Value num }
+    _ -> { model | guess <- Empty }
 
 
 ---- VIEW ----
@@ -89,6 +99,21 @@ toHtml op =
     Minus -> text "-"
     Mult -> text "*"
     Div -> text "/"
+
+viewNumberOrGuess : LC.LocalChannel Action -> Position -> Model -> Html
+viewNumberOrGuess channel pos model =
+  if pos == model.position then
+     input [ Att.type' "number"
+           , on "input" targetValue (\val -> LC.send channel (UpdateGuess val))
+           ]
+           []
+  else
+     text (toString (case model.position of
+                       First -> model.operand_1
+                       Second -> model.operand_2
+                       Result -> model.result)
+     )
+
 
 showError : Model -> Html
 showError model =

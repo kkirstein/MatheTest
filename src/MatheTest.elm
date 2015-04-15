@@ -28,7 +28,7 @@ import Task as T
 ---- MODEL ----
 
 type alias Model =
-  { tasks : List T.Model
+  { tasks : List (ID, T.Model)
   , control : CP.Model
   , seed : Random.Seed
 }
@@ -40,12 +40,15 @@ init =
   , control = CP.init
   , seed = Random.initialSeed 23 }
 
+type alias ID = Int
+
 
 ---- UPDATE ----
 
 type Action
   = NoOp
   | Control CP.Action
+  | UpdateTask ID T.Action
 
 
 update : Action -> Model -> Model
@@ -63,7 +66,7 @@ addTasks : Model -> Int -> Model
 addTasks model n =
   if n == 0 then model
             else let (newTask, seed1) = T.init T.Plus T.Result 100 model.seed
-                     newModel = { model | tasks <- model.tasks ++ [ newTask ], seed <- seed1 }
+                     newModel = { model | tasks <- model.tasks ++ [ (n, newTask) ], seed <- seed1 }
                  in addTasks newModel (n - 1)
 
 
@@ -72,13 +75,17 @@ addTasks model n =
 
 view : Model -> Html
 view model =
+  let tasks = List.map viewTask model.tasks in
   div []
   [ h1 [] [ text "MatheTest" ]
   , div [] 
-    [ h2 [] [ text "Aufgaben" ]
-    ]
+    ([ h2 [] [ text "Aufgaben" ] ] ++ tasks)
   , CP.view (LC.create Control actionChannel) model.control
   ]
+
+viewTask : (ID, T.Model) -> Html
+viewTask (tID, model) =
+  T.view (LC.create (UpdateTask tID) actionChannel) model
 
 
 ---- SIGNALS ----
