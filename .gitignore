@@ -1,18 +1,13 @@
 # backup files
 *~
+*.swp
 
-# dart2js
-.pub
-build
-*.dart.js
-*.js.map
-*.js.deps
+# build
+build/
 
-# pub package manager
-packages
-deploy
-MatheTest/pubspec.lock
+# npm & bower stuff
+node_modules/
+bower_components/
 
 # other generated files
-*.pgm
 
