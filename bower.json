@@ -14,7 +14,7 @@
   "authors": [
     "Kay-Uwe Kirstein"
   ],
-  "license": "MIT",
+  "license": "BSD",
   "homepage": "https://github.com/kkirstein/MatheTest",
   "ignore": [
     "**/.*",
@@ -24,6 +24,6 @@
     "tests"
   ],
   "dependencies": {
-    "riot": "~2.1.0"
+    "riot": "~2.2.4"
   }
 }

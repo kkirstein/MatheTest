@@ -16,14 +16,12 @@
     "education"
   ],
   "author": "Kay-Uwe Kirstein",
-  "license": "MIT",
+  "license": "BSD",
   "bugs": {
     "url": "https://github.com/kkirstein/MatheTest/issues"
   },
   "homepage": "https://github.com/kkirstein/MatheTest#readme",
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-riot": "^0.1.3",
-    "riot": "^2.1.0"
+    "riot": "^2.2.4"
   }
 }
