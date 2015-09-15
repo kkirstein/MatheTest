@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <!-- vim: sw=2 ts=2
-	-->
+-->
 <html>
 	<head>
 		<title>Mathe Test</title>
-		<script src="bower_components/riot/riot.min.js"></script>
 	</head>
 
 	<body>
 		<math-test></math-test>
 
-		<script src="js/math_test.js"></script>
+		<script src="js/math_test.js" type="riot/tag"></script>
+
+		<!-- include riot.js and the compiler -->
+		<!--  <script src="//cdn.jsdelivr.net/g/riot@2.2(riot.min.js+compiler.min.js)"></script> -->
+		<script src="deps/riot/riot+compiler.min.js"></script>
+
 		<script>riot.mount('math-test')</script>
 	</body>
 </html>
