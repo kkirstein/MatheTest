@@ -14,18 +14,30 @@
 		</td>
 		<td>=</td>
 		<td if="{ model.trial_pos != 3 }">{ model.result }</td>
-		<td if="{ model.trial_pos == 3 }" value="{ model.trial }">
-			<input type="text" />
+		<td if="{ model.trial_pos == 3 }" >
+			<input type="text" value="{ model.trial }"/>
 		</td>
 		<td if="{ show_correct() }" class="error_msg">Fehler !</td>
 	</tr>
 
+
 	<!-- styles -->
+	<style>
+		tr {
+			text-align: right;
+		}
+		tr td input {
+			width: 3em;
+			text-align: right;
+		}
+	</style>
+
 
 	<!-- logic -->
 	this.on('mount', function() {
-		model = opts.model
+		//model = opts.model
 	})
+	this.model = opts.model
 
 	show_correct = function() {
 		return false

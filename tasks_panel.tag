@@ -22,17 +22,16 @@
 			padding: 10px;
 			margin: 10px;
 		}
-		tr {
-			text-align: right;
-		}
 	</style>
 
 
 	<!-- logic -->
-	this.on('mount', function() {
-		num_tasks = parent.num_tasks
-		tasks = []
-	})
+	this.num_tasks = parent.num_tasks
+	this.tasks = [
+		{operand_1: '13', operand_2: '26', result: '39',
+		 operand: '+', trial_pos: 3}]
+
+	riot.mount('task')
 
 </tasks-panel>
 
