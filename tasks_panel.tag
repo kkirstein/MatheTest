@@ -6,6 +6,9 @@
 
 	<div id="tasks-panel">
 		<h2>Aufgaben</h2>
+		<table>
+			<task each="{ tasks }" model="{ this }"></task>
+		</table>
 	</div>
 
 
@@ -26,6 +29,10 @@
 
 
 	<!-- logic -->
+	this.on('mount', function() {
+		num_tasks = parent.num_tasks
+		tasks = []
+	})
 
 </tasks-panel>
 
