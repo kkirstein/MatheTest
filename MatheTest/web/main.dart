@@ -13,9 +13,10 @@ import 'math_task.dart';
 class MathTestGuiController {
   
   // const properties
-  static const UPPER_LIMIT = 100;
-  static final OPERANDS = ['+', '-', '*', '/'];
-//  static final OPERANDS = ['+', '-'];
+  static const UPPER_LIMIT = 500;
+//  static final OPERANDS = ['+', '-', '*', '/'];
+  static final OPERANDS = ['+', '-'];
+  static final POSITIONS = [3];
   
   // public properties
   int numTasks;
@@ -44,7 +45,7 @@ class MathTestGuiController {
     
     // generate tasks
     for (var i=0; i<numTasks; i++) {
-      tasks.add(new MathTask(OPERANDS, UPPER_LIMIT, [2, 3]));
+      tasks.add(new MathTask(OPERANDS, UPPER_LIMIT, POSITIONS));
     }
 
     // start timer
